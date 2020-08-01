@@ -1,0 +1,300 @@
+{\rtf1\ansi\ansicpg1252\deff0\deflang1033{\fonttbl{\f0\fnil\fcharset0 Calibri;}}
+{\*\generator Msftedit 5.41.21.2509;}\viewkind4\uc1\pard\sa200\sl276\slmult1\lang9\f0\fs22 mysql> insert into loanaccount values(6,"P Sharma",700000,60,12.50,20080605,null);\par
+Query OK, 1 row affected (0.05 sec)\par
+\par
+mysql> insert into loanaccount values(7,"K.S dhall",500000,48,null,20080305,null);\par
+Query OK, 1 row affected (0.19 sec)\par
+\par
+mysql> select accno,cust_name,loan_amount from loans;\par
+ERROR 1146 (42S02): Table 'shivi.loans' doesn't exist\par
+mysql> select accno,cust_name,loan_amount from loanaccont;\par
+ERROR 1146 (42S02): Table 'shivi.loanaccont' doesn't exist\par
+mysql> select accno,cust_name,loan_amount from loanaccount;\par
++-------+-----------+-------------+\par
+| accno | cust_name | loan_amount |\par
++-------+-----------+-------------+\par
+|     1 | R.K.GUPTA |      300000 |\par
+|     2 | S.PSHARMA |      500000 |\par
+|     3 | K.PJAIN   |      300000 |\par
+|     4 | M.P Yadav |      800000 |\par
+|     5 | S.P Sinha |      200000 |\par
+|     6 | P Sharma  |      700000 |\par
+|     7 | K.S dhall |      500000 |\par
++-------+-----------+-------------+\par
+7 rows in set (0.00 sec)\par
+\par
+mysql> select*from loanaccount where installments<40;\par
++-------+-----------+-------------+--------------+----------+------------+----------+\par
+| ACCNO | CUST_NAME | LOAN_AMOUNT | INSTALLMENTS | INT_RATE | START_DATE | INTEREST |\par
++-------+-----------+-------------+--------------+----------+------------+----------+\par
+|     1 | R.K.GUPTA |      300000 |           36 |       12 | 2009-07-19 |     NULL |\par
+|     3 | K.PJAIN   |      300000 |           36 |     NULL | 2007-03-08 |     NULL |\par
+|     5 | S.P Sinha |      200000 |           36 |     12.5 | 2010-01-03 |     NULL |\par
++-------+-----------+-------------+--------------+----------+------------+----------+\par
+3 rows in set (0.00 sec)\par
+\par
+mysql> selectaccno,loan_amount from loanaccount where start_date<01042009;\par
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for\par
+the right syntax to use near 'selectaccno,loan_amount from loanaccount where start_date<01042009' at line 1\par
+mysql> select accno,loan_amount from loanaccount where start_date<01042009;\par
+Empty set, 1 warning (0.02 sec)\par
+\par
+mysql> select int_rate from loanaccount where start_date>01042009;\par
++----------+\par
+| int_rate |\par
++----------+\par
+|       12 |\par
+|       10 |\par
+|     NULL |\par
+|       10 |\par
+|     12.5 |\par
+|     12.5 |\par
+|     NULL |\par
++----------+\par
+7 rows in set, 1 warning (0.00 sec)\par
+\par
+mysql> select*from loanaccount where int_rateisnull;;\par
+ERROR 1054 (42S22): Unknown column 'int_rateisnull' in 'where clause'\par
+ERROR:\par
+No query specified\par
+\par
+mysql> select*from loanaccount where int_rate is null;;\par
++-------+-----------+-------------+--------------+----------+------------+----------+\par
+| ACCNO | CUST_NAME | LOAN_AMOUNT | INSTALLMENTS | INT_RATE | START_DATE | INTEREST |\par
++-------+-----------+-------------+--------------+----------+------------+----------+\par
+|     3 | K.PJAIN   |      300000 |           36 |     NULL | 2007-03-08 |     NULL |\par
+|     7 | K.S dhall |      500000 |           48 |     NULL | 2008-03-05 |     NULL |\par
++-------+-----------+-------------+--------------+----------+------------+----------+\par
+2 rows in set (0.00 sec)\par
+\par
+ERROR:\par
+No query specified\par
+\par
+mysql> select*from loanaccount where int_rate is not null;;\par
++-------+-----------+-------------+--------------+----------+------------+----------+\par
+| ACCNO | CUST_NAME | LOAN_AMOUNT | INSTALLMENTS | INT_RATE | START_DATE | INTEREST |\par
++-------+-----------+-------------+--------------+----------+------------+----------+\par
+|     1 | R.K.GUPTA |      300000 |           36 |       12 | 2009-07-19 |     NULL |\par
+|     2 | S.PSHARMA |      500000 |           48 |       10 | 2008-03-22 |     NULL |\par
+|     4 | M.P Yadav |      800000 |           60 |       10 | 2008-12-06 |     NULL |\par
+|     5 | S.P Sinha |      200000 |           36 |     12.5 | 2010-01-03 |     NULL |\par
+|     6 | P Sharma  |      700000 |           60 |     12.5 | 2008-06-05 |     NULL |\par
++-------+-----------+-------------+--------------+----------+------------+----------+\par
+5 rows in set (0.00 sec)\par
+\par
+ERROR:\par
+No query specified\par
+\par
+mysql> select distinct(loan_amount)from loanaccount;\par
++-------------+\par
+| loan_amount |\par
++-------------+\par
+|      300000 |\par
+|      500000 |\par
+|      800000 |\par
+|      200000 |\par
+|      700000 |\par
++-------------+\par
+5 rows in set (0.00 sec)\par
+\par
+mysql> select distinct(installments)from loanaccount;\par
++--------------+\par
+| installments |\par
++--------------+\par
+|           36 |\par
+|           48 |\par
+|           60 |\par
++--------------+\par
+3 rows in set (0.00 sec)\par
+\par
+mysql> select*from loanaccount where Start_date>31122008 and installments>36;\par
+Empty set, 1 warning (0.00 sec)\par
+\par
+mysql> select cust_name,loan_amount from loanaccount where installments<>36;\par
++-----------+-------------+\par
+| cust_name | loan_amount |\par
++-----------+-------------+\par
+| S.PSHARMA |      500000 |\par
+| M.P Yadav |      800000 |\par
+| P Sharma  |      700000 |\par
+| K.S dhall |      500000 |\par
++-----------+-------------+\par
+4 rows in set (0.00 sec)\par
+\par
+mysql> select cust_name,loan_amount from loanaccount where loan_amount<500000 or int_rate>12;\par
++-----------+-------------+\par
+| cust_name | loan_amount |\par
++-----------+-------------+\par
+| R.K.GUPTA |      300000 |\par
+| K.PJAIN   |      300000 |\par
+| S.P Sinha |      200000 |\par
+| P Sharma  |      700000 |\par
++-----------+-------------+\par
+4 rows in set (0.01 sec)\par
+\par
+mysql> select*from loanaccount where year(start_date)=2009;\par
++-------+-----------+-------------+--------------+----------+------------+----------+\par
+| ACCNO | CUST_NAME | LOAN_AMOUNT | INSTALLMENTS | INT_RATE | START_DATE | INTEREST |\par
++-------+-----------+-------------+--------------+----------+------------+----------+\par
+|     1 | R.K.GUPTA |      300000 |           36 |       12 | 2009-07-19 |     NULL |\par
++-------+-----------+-------------+--------------+----------+------------+----------+\par
+1 row in set (0.02 sec)\par
+\par
+mysql> select*from loanaccount where loan_amount between 11and12;;\par
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for\par
+the right syntax to use near '' at line 1\par
+ERROR:\par
+No query specified\par
+\par
+mysql> select*from loanaccount where loan_amount between 11 and 12;;\par
+Empty set (0.01 sec)\par
+\par
+ERROR:\par
+No query specified\par
+\par
+mysql> select*from loanaccount where loan_amount between 400000 and 500000;\par
++-------+-----------+-------------+--------------+----------+------------+----------+\par
+| ACCNO | CUST_NAME | LOAN_AMOUNT | INSTALLMENTS | INT_RATE | START_DATE | INTEREST |\par
++-------+-----------+-------------+--------------+----------+------------+----------+\par
+|     2 | S.PSHARMA |      500000 |           48 |       10 | 2008-03-22 |     NULL |\par
+|     7 | K.S dhall |      500000 |           48 |     NULL | 2008-03-05 |     NULL |\par
++-------+-----------+-------------+--------------+----------+------------+----------+\par
+2 rows in set (0.00 sec)\par
+\par
+mysql> select*from loanaccount where int_rate between 11 and 12;\par
++-------+-----------+-------------+--------------+----------+------------+----------+\par
+| ACCNO | CUST_NAME | LOAN_AMOUNT | INSTALLMENTS | INT_RATE | START_DATE | INTEREST |\par
++-------+-----------+-------------+--------------+----------+------------+----------+\par
+|     1 | R.K.GUPTA |      300000 |           36 |       12 | 2009-07-19 |     NULL |\par
++-------+-----------+-------------+--------------+----------+------------+----------+\par
+1 row in set (0.00 sec)\par
+\par
+mysql> select cust_name,loan_amount from loanaccount where installments in(26,36,48);\par
++-----------+-------------+\par
+| cust_name | loan_amount |\par
++-----------+-------------+\par
+| R.K.GUPTA |      300000 |\par
+| S.PSHARMA |      500000 |\par
+| K.PJAIN   |      300000 |\par
+| S.P Sinha |      200000 |\par
+| K.S dhall |      500000 |\par
++-----------+-------------+\par
+5 rows in set (0.17 sec)\par
+\par
+mysql> select*from loanaccount where loan_amount between 400000 and 500000;\par
++-------+-----------+-------------+--------------+----------+------------+----------+\par
+| ACCNO | CUST_NAME | LOAN_AMOUNT | INSTALLMENTS | INT_RATE | START_DATE | INTEREST |\par
++-------+-----------+-------------+--------------+----------+------------+----------+\par
+|     2 | S.PSHARMA |      500000 |           48 |       10 | 2008-03-22 |     NULL |\par
+|     7 | K.S dhall |      500000 |           48 |     NULL | 2008-03-05 |     NULL |\par
++-------+-----------+-------------+--------------+----------+------------+----------+\par
+2 rows in set (0.00 sec)\par
+\par
+mysql> select*from loanaccount where int_rate between 11 and 12;\par
++-------+-----------+-------------+--------------+----------+------------+----------+\par
+| ACCNO | CUST_NAME | LOAN_AMOUNT | INSTALLMENTS | INT_RATE | START_DATE | INTEREST |\par
++-------+-----------+-------------+--------------+----------+------------+----------+\par
+|     1 | R.K.GUPTA |      300000 |           36 |       12 | 2009-07-19 |     NULL |\par
++-------+-----------+-------------+--------------+----------+------------+----------+\par
+1 row in set (0.00 sec)\par
+\par
+mysql> select accno,cust_name,loan_amount from loanaccount where cust_name like"%Sharma";;\par
++-------+-----------+-------------+\par
+| accno | cust_name | loan_amount |\par
++-------+-----------+-------------+\par
+|     2 | S.PSHARMA |      500000 |\par
+|     6 | P Sharma  |      700000 |\par
++-------+-----------+-------------+\par
+2 rows in set (0.00 sec)\par
+\par
+ERROR:\par
+No query specified\par
+\par
+mysql> select accno,cust_name,loan_amount from loanaccount where cust_name like"%a";\par
++-------+-----------+-------------+\par
+| accno | cust_name | loan_amount |\par
++-------+-----------+-------------+\par
+|     1 | R.K.GUPTA |      300000 |\par
+|     2 | S.PSHARMA |      500000 |\par
+|     5 | S.P Sinha |      200000 |\par
+|     6 | P Sharma  |      700000 |\par
++-------+-----------+-------------+\par
+4 rows in set (0.00 sec)\par
+\par
+mysql> select accno,cust_name,loan_amount from loanaccount where cust_name like"%a%";\par
++-------+-----------+-------------+\par
+| accno | cust_name | loan_amount |\par
++-------+-----------+-------------+\par
+|     1 | R.K.GUPTA |      300000 |\par
+|     2 | S.PSHARMA |      500000 |\par
+|     3 | K.PJAIN   |      300000 |\par
+|     4 | M.P Yadav |      800000 |\par
+|     5 | S.P Sinha |      200000 |\par
+|     6 | P Sharma  |      700000 |\par
+|     7 | K.S dhall |      500000 |\par
++-------+-----------+-------------+\par
+7 rows in set (0.00 sec)\par
+\par
+mysql> select accno,cust_name,loan_amount from loanaccount where cust_name not like"%p%";\par
++-------+-----------+-------------+\par
+| accno | cust_name | loan_amount |\par
++-------+-----------+-------------+\par
+|     7 | K.S dhall |      500000 |\par
++-------+-----------+-------------+\par
+1 row in set (0.00 sec)\par
+\par
+mysql> select accno,cust_name,loan_amount from loanaccount where cust_name like"%a_";\par
++-------+-----------+-------------+\par
+| accno | cust_name | loan_amount |\par
++-------+-----------+-------------+\par
+|     4 | M.P Yadav |      800000 |\par
++-------+-----------+-------------+\par
+1 row in set (0.00 sec)\par
+\par
+mysql> select*from loanaccount orderby loan_amount;\par
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for\par
+the right syntax to use near 'loan_amount' at line 1\par
+mysql> select*from loanaccount order by loan_amount;\par
++-------+-----------+-------------+--------------+----------+------------+----------+\par
+| ACCNO | CUST_NAME | LOAN_AMOUNT | INSTALLMENTS | INT_RATE | START_DATE | INTEREST |\par
++-------+-----------+-------------+--------------+----------+------------+----------+\par
+|     5 | S.P Sinha |      200000 |           36 |     12.5 | 2010-01-03 |     NULL |\par
+|     1 | R.K.GUPTA |      300000 |           36 |       12 | 2009-07-19 |     NULL |\par
+|     3 | K.PJAIN   |      300000 |           36 |     NULL | 2007-03-08 |     NULL |\par
+|     2 | S.PSHARMA |      500000 |           48 |       10 | 2008-03-22 |     NULL |\par
+|     7 | K.S dhall |      500000 |           48 |     NULL | 2008-03-05 |     NULL |\par
+|     6 | P Sharma  |      700000 |           60 |     12.5 | 2008-06-05 |     NULL |\par
+|     4 | M.P Yadav |      800000 |           60 |       10 | 2008-12-06 |     NULL |\par
++-------+-----------+-------------+--------------+----------+------------+----------+\par
+7 rows in set (0.03 sec)\par
+\par
+mysql> select*from loanaccount order by start_date desc;\par
++-------+-----------+-------------+--------------+----------+------------+----------+\par
+| ACCNO | CUST_NAME | LOAN_AMOUNT | INSTALLMENTS | INT_RATE | START_DATE | INTEREST |\par
++-------+-----------+-------------+--------------+----------+------------+----------+\par
+|     5 | S.P Sinha |      200000 |           36 |     12.5 | 2010-01-03 |     NULL |\par
+|     1 | R.K.GUPTA |      300000 |           36 |       12 | 2009-07-19 |     NULL |\par
+|     4 | M.P Yadav |      800000 |           60 |       10 | 2008-12-06 |     NULL |\par
+|     6 | P Sharma  |      700000 |           60 |     12.5 | 2008-06-05 |     NULL |\par
+|     2 | S.PSHARMA |      500000 |           48 |       10 | 2008-03-22 |     NULL |\par
+|     7 | K.S dhall |      500000 |           48 |     NULL | 2008-03-05 |     NULL |\par
+|     3 | K.PJAIN   |      300000 |           36 |     NULL | 2007-03-08 |     NULL |\par
++-------+-----------+-------------+--------------+----------+------------+----------+\par
+7 rows in set (0.00 sec)\par
+\par
+mysql> select*from loanaccount order by loan_amount,start_date desc;\par
++-------+-----------+-------------+--------------+----------+------------+----------+\par
+| ACCNO | CUST_NAME | LOAN_AMOUNT | INSTALLMENTS | INT_RATE | START_DATE | INTEREST |\par
++-------+-----------+-------------+--------------+----------+------------+----------+\par
+|     5 | S.P Sinha |      200000 |           36 |     12.5 | 2010-01-03 |     NULL |\par
+|     1 | R.K.GUPTA |      300000 |           36 |       12 | 2009-07-19 |     NULL |\par
+|     3 | K.PJAIN   |      300000 |           36 |     NULL | 2007-03-08 |     NULL |\par
+|     2 | S.PSHARMA |      500000 |           48 |       10 | 2008-03-22 |     NULL |\par
+|     7 | K.S dhall |      500000 |           48 |     NULL | 2008-03-05 |     NULL |\par
+|     6 | P Sharma  |      700000 |           60 |     12.5 | 2008-06-05 |     NULL |\par
+|     4 | M.P Yadav |      800000 |           60 |       10 | 2008-12-06 |     NULL |\par
++-------+-----------+-------------+--------------+----------+------------+----------+\par
+7 rows in set (0.00 sec)\par
+\par
+}
+ 
